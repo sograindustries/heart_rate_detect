@@ -3,11 +3,15 @@
 
 #include <vector>
 
+namespace argos {
+
 typedef struct {
   int sample_rate;
   float std_dev_threshold;
 } hr_params_s;
 
-int EstimateHeartRate(std::vector<int> data, hr_param_s hr_param);
+int EstimateHeartRate(const std::vector<int>& data, const hr_params_s& hr_param);
 
+
+}
 #endif _ARGOS_ESTIMATE_HR_H_
