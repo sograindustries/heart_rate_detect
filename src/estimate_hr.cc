@@ -133,6 +133,7 @@ void argos::InitEstimator() {
   signal_peak_indices.clear();
   signal_peak_values.clear();
   hb_index.clear();
+  hr_estimate_bpm = 0;
 }
 
 int argos::EstimateHeartRate(const std::vector<int>& data, const hr_params_s& hr_params) {
