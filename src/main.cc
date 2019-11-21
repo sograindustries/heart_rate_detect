@@ -3,7 +3,7 @@
 
 #include "estimate_hr.h"
 
-extern int heartbeat_01[3570];
+extern double heartbeat_01[5000];
 
 int main(void) {
 
