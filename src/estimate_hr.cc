@@ -71,6 +71,9 @@ namespace {
       }
     }
 
+    // Adds peak to signal level.
+    signal_level = 0.125 * max_value + 0.875 * signal_level;
+
     AddHBPeak(signal_peak_indices[max_value_index]);
     signal_peak_indices.clear();
     signal_peak_values.clear();
@@ -109,7 +112,7 @@ namespace {
       return;
     }
 
-    signal_level = 0.125 * peak_value + 0.875 * signal_level;
+    //    signal_level = 0.125 * peak_value + 0.875 * signal_level;
     signal_peak_indices.push_back(sample_count);
     signal_peak_values.push_back(peak_value);
       
