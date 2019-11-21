@@ -1,6 +1,7 @@
 #include <iostream>
 #include <math.h>
 #include <vector>
+#include <list>
 
 #include "estimate_hr.h"
 #include "fir_filter.h"
@@ -31,8 +32,29 @@ namespace {
   std::vector<long unsigned int> signal_peak_indices;
   std::vector<double> signal_peak_values;
 
-  void AddHBPeak(unsigned int index) {
+  const int kHrMaLength = 8;
+  std::vector<long unsigned int> hb_index;
+  double hr_estimate_bpm = 0;
+  
+  void AddHBPeak(long unsigned int index) {
     std::cout << "HB Index: " << index << std::endl;
+    hb_index.push_back(index);
+    
+    if (hb_index.size() > kHrMaLength) {
+      hb_index.erase(hb_index.begin(), hb_index.begin());
+    }
+
+    if (hb_index.size() < kHrMaLength) {
+      return;
+    }
+
+    double hb_period = 0;
+    for (int ii = 0; ii < hb_index.size()-1; ++ii) {
+      hb_period += hb_index[ii+1] - hb_index[ii];
+    }
+    hb_period /= (hb_index.size() - 1);
+
+    hr_estimate_bpm = (250.0 / hb_period) * 60.0;
   }
   
   void ProcessPeaks() {
@@ -107,6 +129,7 @@ void argos::InitEstimator() {
   signal_level = 0;
   signal_peak_indices.clear();
   signal_peak_values.clear();
+  hb_index.clear();
 }
 
 int argos::EstimateHeartRate(const std::vector<int>& data, const hr_params_s& hr_params) {
@@ -129,7 +152,7 @@ int argos::EstimateHeartRate(const std::vector<int>& data, const hr_params_s& hr
     count++;
   }
   
-  return 0;
+  return static_cast<int>(hr_estimate_bpm);
 }
 
 
