@@ -37,7 +37,7 @@ namespace {
   double hr_estimate_bpm = 0;
   
   void AddHBPeak(long unsigned int index) {
-    std::cout << "HB Index: " << index << std::endl;
+    //    std::cout << "HB Index: " << index << std::endl;
     hb_index.push_back(index);
     
     if (hb_index.size() > kHrMaLength) {
